@@ -1,0 +1,23 @@
+{
+    "name": "Data Transformation",
+    "type": "TridentNotebook",
+    "dependsOn": [
+        {
+            "activity": "Copy latest news",
+            "dependencyConditions": [
+                "Succeeded"
+            ]
+        }
+    ],
+    "policy": {
+        "timeout": "0.12:00:00",
+        "retry": 0,
+        "retryIntervalInSeconds": 30,
+        "secureOutput": false,
+        "secureInput": false
+    },
+    "typeProperties": {
+        "notebookId": "5307f3a5-ed4c-4af5-80d9-a82da4fb7230",
+        "workspaceId": "6af94592-68e6-48e5-9e4f-9f47629e539c"
+    }
+}

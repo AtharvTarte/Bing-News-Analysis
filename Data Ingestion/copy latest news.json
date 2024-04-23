@@ -1,0 +1,73 @@
+{
+    "name": "Copy latest news",
+    "type": "Copy",
+    "dependsOn": [],
+    "policy": {
+        "timeout": "0.12:00:00",
+        "retry": 0,
+        "retryIntervalInSeconds": 30,
+        "secureOutput": false,
+        "secureInput": false
+    },
+    "typeProperties": {
+        "source": {
+            "type": "RestSource",
+            "httpRequestTimeout": "00:01:40",
+            "requestInterval": "00.00:00:00.010",
+            "requestMethod": "GET",
+            "additionalHeaders": {
+                "Ocp-Apim-Subscription-Key": "2a2450b1bcd84e9ab236fd75ca2d79a7"
+            },
+            "paginationRules": {
+                "supportRFC5988": "true"
+            },
+            "datasetSettings": {
+                "annotations": [],
+                "type": "RestResource",
+                "typeProperties": {
+                    "relativeUrl": {
+                        "value": "?q=@{pipeline().parameters.search_term}&count=100&freshness=Day&mkt=en-IN",
+                        "type": "Expression"
+                    }
+                },
+                "schema": [],
+                "externalReferences": {
+                    "connection": "300c0c45-bb56-4de3-8181-b4e238456ced"
+                }
+            }
+        },
+        "sink": {
+            "type": "JsonSink",
+            "storeSettings": {
+                "type": "LakehouseWriteSettings"
+            },
+            "formatSettings": {
+                "type": "JsonWriteSettings"
+            },
+            "datasetSettings": {
+                "annotations": [],
+                "linkedService": {
+                    "name": "bing_lake_db",
+                    "properties": {
+                        "annotations": [],
+                        "type": "Lakehouse",
+                        "typeProperties": {
+                            "workspaceId": "6af94592-68e6-48e5-9e4f-9f47629e539c",
+                            "artifactId": "3b39b8e0-a517-403b-a31f-9c6a4133f3dc",
+                            "rootFolder": "Files"
+                        }
+                    }
+                },
+                "type": "Json",
+                "typeProperties": {
+                    "location": {
+                        "type": "LakehouseLocation",
+                        "fileName": "bing-latest-news.json"
+                    }
+                },
+                "schema": {}
+            }
+        },
+        "enableStaging": false
+    }
+}
